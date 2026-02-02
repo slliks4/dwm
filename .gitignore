@@ -1,0 +1,7 @@
+# build artifacts
+*.o
+dwm
+
+# patches
+*.orig
+*.rej
