@@ -1,4 +1,5 @@
 /* See LICENSE file for copyright and license details. */
+#include <X11/XF86keysym.h>
 
 /* appearance */
 static const unsigned int borderpx  = 3;        /* border pixel of windows */
@@ -56,10 +57,10 @@ static const Layout layouts[] = {
 /* key definitions */
 #define MODKEY Mod4Mask
 #define TAGKEYS(KEY,TAG) \
-	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
-	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
-	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
-	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
+{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
+{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
+{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
+{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
@@ -70,45 +71,64 @@ static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont,
 static const char *termcmd[]  = { "alacritty", NULL };
 
 static const Key keys[] = {
-        /* modifier                     key              function        argument */
 
-        /* --- Application launching --- */
-        { MODKEY,                       XK_space,        spawn,          {.v = dmenucmd } }, // Application menu (dmenu)
-        { MODKEY,                       XK_Return,       spawn,          {.v = termcmd } },  // Launch terminal
+	/* =====================
+	 * Hardware keys
+	 * ===================== */
 
-        /* --- UI toggles --- */
-        { MODKEY,                       XK_b,            togglebar,      {0} },              // Toggle status bar visibility
+	/* Volume (PipeWire) */
+	{ 0, XF86XK_AudioMute,        spawn, SHCMD("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle") },
+	{ 0, XF86XK_AudioLowerVolume, spawn, SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-") },
+	{ 0, XF86XK_AudioRaiseVolume, spawn, SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+") },
 
-        /* --- Window focus navigation --- */
-        { MODKEY,                       XK_j,            focusstack,     {.i = +1 } },        // Focus next window in stack
-        { MODKEY,                       XK_k,            focusstack,     {.i = -1 } },        // Focus previous window in stack
+	/* Brightness */
+	{ 0, XF86XK_MonBrightnessDown, spawn, SHCMD("light -U 10") },
+	{ 0, XF86XK_MonBrightnessUp,   spawn, SHCMD("light -A 10") },
 
-        /* --- Master area sizing --- */
-        { MODKEY,                       XK_h,            setmfact,       {.f = -0.05} },      // Shrink master width
-        { MODKEY,                       XK_l,            setmfact,       {.f = +0.05} },      // Grow master width
+	/* Music Player */
+	{ 0, XF86XK_AudioPlay, spawn, SHCMD("playerctl play-pause") },
+	{ 0, XF86XK_AudioNext, spawn, SHCMD("playerctl next") },
+	{ 0, XF86XK_AudioPrev, spawn, SHCMD("playerctl previous") },
 
-        /* --- Window promotion --- */
-        { MODKEY,                       XK_m,            zoom,           {0} },               // Promote focused window to master
+	/* modifier                     key              function        argument */
 
-        /* --- Tag navigation --- */
-        { MODKEY,                       XK_Tab,          view,           {0} },               // Toggle between current and previous tag
+	/* --- Application launching --- */
+	{ MODKEY,                       XK_space,        spawn,          {.v = dmenucmd } }, // Application menu (dmenu)
+	{ MODKEY,                       XK_Return,       spawn,          {.v = termcmd } },  // Launch terminal
 
-        /* --- Window control --- */
-        { MODKEY,             		XK_BackSpace,    killclient,     {0} },               // Close focused window
+	/* --- UI toggles --- */
+	{ MODKEY,                       XK_b,            togglebar,      {0} },              // Toggle status bar visibility
 
-        /* --- Layout selection (explicit) --- */
-        { MODKEY,             		XK_d,            setlayout,      {.v = &layouts[0]} }, // Tiled layout
-        { MODKEY,             		XK_f,            setlayout,      {.v = &layouts[2]} }, // Monocle (fullscreen) layout
+	/* --- Window focus navigation --- */
+	{ MODKEY,                       XK_j,            focusstack,     {.i = +1 } },        // Focus next window in stack
+	{ MODKEY,                       XK_k,            focusstack,     {.i = -1 } },        // Focus previous window in stack
 
-        /* --- View / tag all windows --- */
-        { MODKEY|ShiftMask,             XK_9,            view,           {.ui = ~0 } },       // View all tags
-        { MODKEY|ShiftMask,             XK_0,            tag,            {.ui = ~0 } },       // Assign window to all tags
+	/* --- Master area sizing --- */
+	{ MODKEY,                       XK_h,            setmfact,       {.f = -0.05} },      // Shrink master width
+	{ MODKEY,                       XK_l,            setmfact,       {.f = +0.05} },      // Grow master width
 
-        /* --- Multi-monitor navigation --- */
-        { MODKEY,                       XK_comma,        focusmon,       {.i = -1 } },        // Focus previous monitor
-        { MODKEY,                       XK_period,       focusmon,       {.i = +1 } },        // Focus next monitor
-        { MODKEY|ShiftMask,             XK_comma,        tagmon,         {.i = -1 } },        // Send window to previous monitor
-        { MODKEY|ShiftMask,             XK_period,       tagmon,         {.i = +1 } },        // Send window to next monitor
+	/* --- Window promotion --- */
+	{ MODKEY,                       XK_m,            zoom,           {0} },               // Promote focused window to master
+
+	/* --- Tag navigation --- */
+	{ MODKEY,                       XK_Tab,          view,           {0} },               // Toggle between current and previous tag
+
+	/* --- Window control --- */
+	{ MODKEY,             		XK_BackSpace,    killclient,     {0} },               // Close focused window
+
+	/* --- Layout selection (explicit) --- */
+	{ MODKEY,             		XK_d,            setlayout,      {.v = &layouts[0]} }, // Tiled layout
+	{ MODKEY,             		XK_f,            setlayout,      {.v = &layouts[2]} }, // Monocle (fullscreen) layout
+
+	/* --- View / tag all windows --- */
+	{ MODKEY|ShiftMask,             XK_9,            view,           {.ui = ~0 } },       // View all tags
+	{ MODKEY|ShiftMask,             XK_0,            tag,            {.ui = ~0 } },       // Assign window to all tags
+
+	/* --- Multi-monitor navigation --- */
+	{ MODKEY,                       XK_comma,        focusmon,       {.i = -1 } },        // Focus previous monitor
+	{ MODKEY,                       XK_period,       focusmon,       {.i = +1 } },        // Focus next monitor
+	{ MODKEY|ShiftMask,             XK_comma,        tagmon,         {.i = -1 } },        // Send window to previous monitor
+	{ MODKEY|ShiftMask,             XK_period,       tagmon,         {.i = +1 } },        // Send window to next monitor
 	/* Screenshots */
 	{ MODKEY,            XK_bracketleft, spawn, { .v = screenshot_http } },
 	{ MODKEY,            XK_bracketright,  spawn, { .v = screenshot_copy } },
@@ -117,19 +137,19 @@ static const Key keys[] = {
 	{ MODKEY,            XK_p,            spawn, { .v = screenshot_full } },
 
 
-        /* --- Tag keys (1–9) --- */
-        TAGKEYS(                        XK_0,                              0)
-        TAGKEYS(                        XK_9,                              1)
-        TAGKEYS(                        XK_8,                              2)
-        TAGKEYS(                        XK_7,                              3)
-        TAGKEYS(                        XK_5,                              4)
-        TAGKEYS(                        XK_6,                              5)
-        TAGKEYS(                        XK_1,                              6)
-        TAGKEYS(                        XK_2,                              7)
-        TAGKEYS(                        XK_3,                              8)
+	/* --- Tag keys (1–9) --- */
+	TAGKEYS(                        XK_0,                              0)
+		TAGKEYS(                        XK_9,                              1)
+		TAGKEYS(                        XK_8,                              2)
+		TAGKEYS(                        XK_7,                              3)
+		TAGKEYS(                        XK_5,                              4)
+		TAGKEYS(                        XK_6,                              5)
+		TAGKEYS(                        XK_1,                              6)
+		TAGKEYS(                        XK_2,                              7)
+		TAGKEYS(                        XK_3,                              8)
 
-        /* --- WM control --- */
-        { MODKEY|ShiftMask,             XK_q,    	quit,            {0} },               // Exit dwm
+		/* --- WM control --- */
+		{ MODKEY|ShiftMask,             XK_q,    	quit,            {0} },               // Exit dwm
 };
 
 /* button definitions */

@@ -7,9 +7,10 @@ It is the single source of truth for:
 * keybindings
 * visual settings (borders, colors)
 * layout decisions
+* hardware key behavior
 * patch history (when applicable)
 
-System-level setup (X11, display, keyboard, etc.) lives in the dotfiles repo.
+System-level setup (X11, display, keyboard, notifications, etc.) lives in the **dotfiles repository**.
 This repo focuses **only on dwm itself**.
 
 ---
@@ -18,9 +19,30 @@ This repo focuses **only on dwm itself**.
 
 dwm is installed from source and lives outside dotfiles.
 
-### Clone
+### 1️⃣ Install dependencies
 
-```bash
+Before building dwm, run:
+
+```sh
+./install.sh
+```
+
+This installs:
+
+* X11 base
+* build tools
+* terminal (Alacritty)
+* audio + brightness support
+* required fonts
+* hardware key tooling (`xev`)
+
+Nothing is configured automatically.
+
+---
+
+### 2️⃣ Clone dwm
+
+```sh
 sudo mkdir -p /usr/local/src
 sudo chown -R "$USER:$USER" /usr/local/src
 
@@ -29,9 +51,11 @@ git clone https://github.com/slliks4/dwm.git
 cd dwm
 ```
 
-### Build & Install
+---
 
-```bash
+### 3️⃣ Build & install
+
+```sh
 sudo make clean install
 ```
 
@@ -43,48 +67,17 @@ After installation, `dwm` is available system-wide.
 
 dwm is configured by editing `config.h` and recompiling.
 
-All changes are **explicit and intentional** — no runtime config, no hidden state.
+There is:
 
-```bash
-cd /usr/local/src/dwm
+* no runtime configuration
+* no IPC
+* no hidden state
+
+Every change is explicit.
+
+```sh
 sudo nvim config.h
 sudo make clean install
-```
-
----
-
-## 🔑 Core Configuration (Practical Defaults)
-
-These are the **minimum changes** applied early to make dwm usable day-to-day.
-
-### Modifier Key (Super / Windows)
-
-Default dwm uses `Alt`.
-This setup uses the **Super (Windows) key**.
-
-```c
-#define MODKEY Mod4Mask
-```
-
----
-
-### Default Terminal
-
-Change the default terminal to **Alacritty**.
-
-```c
-static const char *termcmd[] = { "alacritty", NULL };
-```
-
----
-
-### Terminal Keybinding (Mod + Enter)
-
-Default dwm uses `Mod + Shift + Enter`.
-This setup simplifies it to `Mod + Enter`.
-
-```c
-{ MODKEY, XK_Return, spawn, {.v = termcmd } },
 ```
 
 ---
@@ -93,17 +86,14 @@ This setup simplifies it to `Mod + Enter`.
 
 Detailed behavior and rationale live alongside the code.
 
-### Keybindings
+* 🔑 **Keybindings**
+  📄 [`docs/keybindings.md`](docs/keybindings.md)
 
-Intent, removed defaults, and workflow decisions:
+* 🎨 **Visuals (borders, colors)**
+  📄 [`docs/visual.md`](docs/visual.md)
 
-* 📄 [`docs/keybindings.md`](docs/keybindings.md)
-
-### Visuals
-
-Borders, colors, and minimal cosmetic changes:
-
-* 📄 [`docs/visual.md`](docs/visual.md)
+* 🎛 **Hardware keys (volume, brightness, media)**
+  📄 [`docs/hardware-keys.md`](docs/hardware-keys.md)
 
 Inline comments in `config.h` remain the **authoritative reference**.
 
@@ -114,6 +104,6 @@ Inline comments in `config.h` remain the **authoritative reference**.
 * configuration lives next to code
 * rebuilds are explicit
 * defaults are reduced, not replaced
-* features are added only when proven necessary
+* features are added only after real usage proves they’re needed
 
 If something feels missing, it should be discovered through use — not guessed in advance.
