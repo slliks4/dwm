@@ -138,12 +138,12 @@ static const Key keys[] = {
 
 
 	/* --- Tag keys (1–9) --- */
-	TAGKEYS(                        XK_0,                              0)
+		TAGKEYS(                        XK_0,                              0)
 		TAGKEYS(                        XK_9,                              1)
 		TAGKEYS(                        XK_8,                              2)
 		TAGKEYS(                        XK_7,                              3)
-		TAGKEYS(                        XK_5,                              4)
-		TAGKEYS(                        XK_6,                              5)
+		TAGKEYS(                        XK_4,                              4)
+		TAGKEYS(                        XK_5,                              5)
 		TAGKEYS(                        XK_1,                              6)
 		TAGKEYS(                        XK_2,                              7)
 		TAGKEYS(                        XK_3,                              8)
