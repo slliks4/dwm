@@ -97,7 +97,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_Return,       spawn,          {.v = termcmd } },  // Launch terminal
 
 	/* --- UI toggles --- */
-	{ MODKEY,                       XK_b,            togglebar,      {0} },              // Toggle status bar visibility
+	{ MODKEY,                       XK_comma,            togglebar,      {0} },              // Toggle status bar visibility
 
 	/* --- Window focus navigation --- */
 	{ MODKEY,                       XK_j,            focusstack,     {.i = +1 } },        // Focus next window in stack
@@ -125,16 +125,16 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_0,            tag,            {.ui = ~0 } },       // Assign window to all tags
 
 	/* --- Multi-monitor navigation --- */
-	{ MODKEY,                       XK_comma,        focusmon,       {.i = -1 } },        // Focus previous monitor
-	{ MODKEY,                       XK_period,       focusmon,       {.i = +1 } },        // Focus next monitor
-	{ MODKEY|ShiftMask,             XK_comma,        tagmon,         {.i = -1 } },        // Send window to previous monitor
-	{ MODKEY|ShiftMask,             XK_period,       tagmon,         {.i = +1 } },        // Send window to next monitor
+	{ MODKEY,                       XK_b,        focusmon,       {.i = -1 } },        // Focus previous monitor
+	{ MODKEY,                       XK_n,       focusmon,       {.i = +1 } },        // Focus next monitor
+	{ MODKEY|ShiftMask,             XK_b,        tagmon,         {.i = -1 } },        // Send window to previous monitor
+	{ MODKEY|ShiftMask,             XK_n,       tagmon,         {.i = +1 } },        // Send window to next monitor
 	/* Screenshots */
 	{ MODKEY,            XK_bracketleft, spawn, { .v = screenshot_http } },
 	{ MODKEY,            XK_bracketright,  spawn, { .v = screenshot_copy } },
 	{ MODKEY|ShiftMask,  XK_bracketleft,   spawn, { .v = screenshot_http_save } },
 	{ MODKEY|ShiftMask,  XK_bracketright,    spawn, { .v = screenshot_save } },
-	{ MODKEY,            XK_p,            spawn, { .v = screenshot_full } },
+	{ MODKEY|ShiftMask,  XK_p,            spawn, { .v = screenshot_full } },
 
 
 	/* --- Tag keys (1–9) --- */
