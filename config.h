@@ -70,6 +70,11 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *termcmd[]  = { "alacritty", NULL };
 static const char *dictcmd[] = { "dict", NULL };
+static const char *wikiiqcmd[] = { "wikiiq", NULL };
+static const char *bat_power_saver[] = { "battery-mode", "power-saver", NULL };
+static const char *bat_performance[] = { "battery-mode", "performance", NULL };
+static const char *bat_balanced[]    = { "battery-mode", "balanced", NULL };
+static const char *nightcmd[]    = { "toggle-night", NULL };
 
 static const Key keys[] = {
 
@@ -100,9 +105,20 @@ static const Key keys[] = {
     /* --- Dictionary word selection search --- */
     { MODKEY,                       XK_slash,        spawn,          {.v = dictcmd } },
 
-    /* --- UI toggles --- */
+    /* --- Wiki qutebrowser word selection search --- */
+    { MODKEY|ShiftMask,             XK_slash,        spawn,          {.v = wikiiqcmd } },
+
+    /* --- Battery modes --- */
+    { MODKEY,                       XK_p,            spawn,          { .v = bat_power_saver } },
+    { MODKEY|ShiftMask,             XK_p,            spawn,          { .v = bat_performance } },
+    { MODKEY,                       XK_o,            spawn,          { .v = bat_balanced } },
+
+    /* --- UI toggle --- */
     { MODKEY,                       XK_b,            togglebar,      {0} },              // Toggle status bar visibility
 
+    /* --- Night Light toggle --- */
+    { MODKEY,                       XK_n,            spawn,          {.v = nightcmd } },  // Toggle night light
+                                                                                         
     /* --- Window focus navigation --- */
     { MODKEY,                       XK_j,            focusstack,     {.i = +1 } },        // Focus next window in stack
     { MODKEY,                       XK_k,            focusstack,     {.i = -1 } },        // Focus previous window in stack
@@ -125,8 +141,8 @@ static const Key keys[] = {
     { MODKEY,             		    XK_f,            setlayout,      {.v = &layouts[2]} }, // Monocle (fullscreen) layout
 
     /* --- View / tag all windows --- */
-    { MODKEY|ShiftMask,             XK_9,            view,           {.ui = ~0 } },  // View all tags
-    { MODKEY|ShiftMask,             XK_0,            tag,            {.ui = ~0 } },  // Assign window to all tags
+    { MODKEY|ShiftMask,             XK_6,            view,           {.ui = ~0 } },  // View all tags
+    { MODKEY,                       XK_6,            tag,            {.ui = ~0 } },  // Assign window to all tags
 
     /* --- Multi-monitor navigation --- */
     { MODKEY,                       XK_h,            focusmon,       {.i = -1 } },  // left monitor
@@ -141,7 +157,7 @@ static const Key keys[] = {
     { MODKEY,                       XK_bracketright, spawn,          { .v = screenshot_copy } },
     { MODKEY|ShiftMask,             XK_bracketleft,  spawn,          { .v = screenshot_http_save } },
     { MODKEY|ShiftMask,             XK_bracketright, spawn,          { .v = screenshot_save } },
-    { MODKEY|ShiftMask,             XK_p,            spawn,          { .v = screenshot_full } },
+    { MODKEY|ShiftMask,             XK_s,            spawn,          { .v = screenshot_full } },
 
 
     /* --- Tag keys (1–9) --- */

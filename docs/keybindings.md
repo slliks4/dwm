@@ -111,10 +111,9 @@ Advanced tag toggling (`toggleview`, `toggletag`) is not used for now.
 
 ---
 
-### Multi-Monitor
+### Night Light toggle
+Mod + n
 
-* `Mod + , / .` → focus previous / next monitor
-* `Mod + Shift + , / .` → move window to previous / next monitor
 
 ---
 
