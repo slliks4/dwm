@@ -73,30 +73,33 @@ static const char *dictcmd[] = { "dict", NULL };
 static const char *wikiiqcmd[] = { "wikiiq", NULL };
 static const char *bat_power_saver[] = { "battery-mode", "power-saver", NULL };
 static const char *bat_performance[] = { "battery-mode", "performance", NULL };
-static const char *bat_balanced[]    = { "battery-mode", "balanced", NULL };
-static const char *nightcmd[]    = { "toggle-night", NULL };
+static const char *bat_balanced[] = { "battery-mode", "balanced", NULL };
+static const char *nightcmd[] = { "toggle-night", NULL };
+static const char *resynccmd[] = { "resync-session", NULL };
 
 static const Key keys[] = {
+    /* modifier                     key              function        argument */
 
     /* =====================
      * Hardware keys
      * ===================== */
 
     /* Volume (PipeWire) */
-    { 0, XF86XK_AudioMute,        spawn, SHCMD("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle") },
-    { 0, XF86XK_AudioLowerVolume, spawn, SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-") },
-    { 0, XF86XK_AudioRaiseVolume, spawn, SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+") },
+    { 0,                            XF86XK_AudioMute,        spawn, SHCMD("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle") },
+    { 0,                            XF86XK_AudioLowerVolume, spawn, SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-") },
+    { 0,                            XF86XK_AudioRaiseVolume, spawn, SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+") },
 
     /* Brightness */
-    { 0, XF86XK_MonBrightnessDown, spawn, SHCMD("light -U 10") },
-    { 0, XF86XK_MonBrightnessUp,   spawn, SHCMD("light -A 10") },
+    { 0,                            XF86XK_MonBrightnessDown, spawn, SHCMD("light -U 10") },
+    { 0,                            XF86XK_MonBrightnessUp,   spawn, SHCMD("light -A 10") },
 
     /* Music Player */
-    { 0, XF86XK_AudioPlay, spawn, SHCMD("playerctl play-pause") },
-    { 0, XF86XK_AudioNext, spawn, SHCMD("playerctl next") },
-    { 0, XF86XK_AudioPrev, spawn, SHCMD("playerctl previous") },
+    { 0,                            XF86XK_AudioPlay, spawn, SHCMD("playerctl play-pause") },
+    { 0,                            XF86XK_AudioNext, spawn, SHCMD("playerctl next") },
+    { 0,                            XF86XK_AudioPrev, spawn, SHCMD("playerctl previous") },
 
-    /* modifier                     key              function        argument */
+    /* Resync hardware when unplugged */
+    { MODKEY|ShiftMask,             XK_r,            spawn,          {.v = resynccmd } },
 
     /* --- Application launching --- */
     { MODKEY,                       XK_space,        spawn,          {.v = dmenucmd } }, // Application menu (dmenu)
@@ -124,8 +127,8 @@ static const Key keys[] = {
     { MODKEY,                       XK_k,            focusstack,     {.i = -1 } },        // Focus previous window in stack
 
     /* --- Master area sizing --- */
-    { MODKEY,                       XK_h,            setmfact,       {.f = -0.05} },
-    { MODKEY,                       XK_l,            setmfact,       {.f = +0.05} },
+    { MODKEY|ShiftMask,             XK_j,            setmfact,       {.f = -0.05} },
+    { MODKEY|ShiftMask,             XK_k,            setmfact,       {.f = +0.05} },
 
     /* --- Window promotion --- */
     { MODKEY,                       XK_m,            zoom,           {0} },               // Promote focused window to master
@@ -145,12 +148,12 @@ static const Key keys[] = {
     { MODKEY,                       XK_6,            tag,            {.ui = ~0 } },  // Assign window to all tags
 
     /* --- Multi-monitor navigation --- */
-    { MODKEY,                       XK_u,            focusmon,       {.i = -1 } },  // left monitor
-    { MODKEY,                       XK_i,            focusmon,       {.i = +1 } },  // right monitor
+    { MODKEY,                       XK_l,            focusmon,       {.i = -1 } },  // right monitor
+    { MODKEY,                       XK_h,            focusmon,       {.i = +1 } },  // left monitor
 
     /* Send window to monitor */
-    { MODKEY|ShiftMask,             XK_u,            tagmon,         {.i = -1 } },
-    { MODKEY|ShiftMask,             XK_i,            tagmon,         {.i = +1 } },
+    { MODKEY|ShiftMask,             XK_l,            tagmon,         {.i = -1 } },
+    { MODKEY|ShiftMask,             XK_h,            tagmon,         {.i = +1 } },
 
     /* Screenshots */
     { MODKEY,                       XK_bracketleft,  spawn,          { .v = screenshot_http } },
