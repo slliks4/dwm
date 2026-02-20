@@ -76,6 +76,7 @@ static const char *bat_performance[] = { "battery-mode", "performance", NULL };
 static const char *bat_balanced[] = { "battery-mode", "balanced", NULL };
 static const char *nightcmd[] = { "toggle-night", NULL };
 static const char *resynccmd[] = { "resync-session", NULL };
+static const char *lockcmd[] = { "lock", NULL };
 
 static const Key keys[] = {
     /* modifier                     key              function        argument */
@@ -100,6 +101,9 @@ static const Key keys[] = {
 
     /* Resync hardware when unplugged */
     { MODKEY|ShiftMask,             XK_r,            spawn,          {.v = resynccmd } },
+
+    /* Lock and suspend system */
+    { MODKEY,                       XK_q,    spawn,          {.v = lockcmd } },
 
     /* --- Application launching --- */
     { MODKEY,                       XK_space,        spawn,          {.v = dmenucmd } }, // Application menu (dmenu)
