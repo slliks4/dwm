@@ -46,6 +46,9 @@ static const char *screenshot_save[]      = { "screenshot", "save", NULL };
 static const char *screenshot_http_save[] = { "screenshot", "http-save", NULL };
 static const char *screenshot_full[]      = { "screenshot", "full", NULL };
 
+/* Screen record Key Binds */
+static const char *xrecord[]={ "xrecord", "toggle", NULL };
+static const char *xrecord_mic[]={ "xrecord", "toggle-mic", NULL };
 
 static const Layout layouts[] = {
     /* symbol     arrange function */
@@ -166,6 +169,9 @@ static const Key keys[] = {
     { MODKEY|ShiftMask,             XK_bracketright, spawn,          { .v = screenshot_save } },
     { MODKEY|ShiftMask,             XK_s,            spawn,          { .v = screenshot_full } },
 
+    /* Screenrecord */
+    { MODKEY,                       XK_backslash,    spawn,          { .v = xrecord } },
+    { MODKEY|ShiftMask,             XK_backslash,    spawn,          { .v = xrecord_mic } },
 
     /* --- Tag keys (1–9) --- */
     TAGKEYS(                        XK_0,                              0)
