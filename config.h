@@ -130,12 +130,12 @@ static const Key keys[] = {
     { MODKEY,                       XK_n,            spawn,          {.v = nightcmd } },  // Toggle night light
                                                                                          
     /* --- Window focus navigation --- */
-    { MODKEY,                       XK_j,            focusstack,     {.i = +1 } },        // Focus next window in stack
-    { MODKEY,                       XK_k,            focusstack,     {.i = -1 } },        // Focus previous window in stack
+    { MODKEY,                       XK_k,            focusstack,     {.i = +1 } },        // Focus next window in stack
+    { MODKEY,                       XK_j,            focusstack,     {.i = -1 } },        // Focus previous window in stack
 
     /* --- Master area sizing --- */
-    { MODKEY|ShiftMask,             XK_j,            setmfact,       {.f = -0.05} },
-    { MODKEY|ShiftMask,             XK_k,            setmfact,       {.f = +0.05} },
+    { MODKEY|ShiftMask,             XK_k,            setmfact,       {.f = -0.05} },
+    { MODKEY|ShiftMask,             XK_j,            setmfact,       {.f = +0.05} },
 
     /* --- Window promotion --- */
     { MODKEY,                       XK_m,            zoom,           {0} },               // Promote focused window to master
